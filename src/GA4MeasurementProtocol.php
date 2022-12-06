@@ -52,10 +52,11 @@ class GA4MeasurementProtocol
 
             throw new Exception('Please use the package provided blade directive or set session_id manually before posting an event.');
         }
+        else {
+            $eventData['params']['session_id'] = $this->sessionId;
+        }
 
-        $eventData['params']['session_id'] = $this->sessionId;
 
-        dd($eventData);
         $response = Http::withOptions([
             'query' => [
                 'measurement_id' => config('google-analytics-4-measurement-protocol.measurement_id'),

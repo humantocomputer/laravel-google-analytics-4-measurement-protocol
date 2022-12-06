@@ -18,7 +18,7 @@
         data.append('client_id', clientId);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'store-google-analytics-client-id', true);
+        xhr.open('POST', 'store-google-analytics-client-id', false);
         xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
         xhr.send(data);
     }
@@ -28,7 +28,7 @@
         data.append('session_id', sessionId);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'store-google-analytics-session-id', true);
+        xhr.open('POST', 'store-google-analytics-session-id', false);
         xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
         xhr.send(data);
     }
