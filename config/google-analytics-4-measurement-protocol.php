@@ -7,5 +7,7 @@ return [
 
     'client_id_session_key' => 'google-analytics-4-measurement-protocol.client_id',
 
-    'session_id_session_key' => 'google-analytics-4-measurement-protocol.session_id'
+    'session_id_session_key' => 'google-analytics-4-measurement-protocol.session_id',
+
+    'session_number_session_key' => 'google-analytics-4-measurement-protocol.session_number'
 ];

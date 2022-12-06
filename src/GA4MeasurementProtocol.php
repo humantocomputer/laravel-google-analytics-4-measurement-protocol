@@ -9,6 +9,7 @@ class GA4MeasurementProtocol
 {
     private string $clientId = '';
     private string $sessionId = '';
+    private string $sessionNumber = '';
 
     private bool $debugging = false;
 
@@ -35,6 +36,13 @@ class GA4MeasurementProtocol
         return $this;
     }
 
+    public function setSessionNumber(string $sessionNumber): self
+    {
+        $this->sessionNumber = $sessionNumber;
+
+        return $this;
+    }
+
     public function enableDebugging(): self
     {
         $this->debugging = true;
@@ -56,6 +64,12 @@ class GA4MeasurementProtocol
             session([config('google-analytics-4-measurement-protocol.session_id_session_key') => $this->generateRandomId()]);
             $unset_session_at_the_end = true;
         }
+        // if session number is not set, generate a random one to post the event anyway and not throw an error
+        if(session(config('google-analytics-4-measurement-protocol.session_number_session_key')) === null) {
+            session([config('google-analytics-4-measurement-protocol.session_number_session_key') => $this->generateRandomId()]);
+            $unset_session_at_the_end = true;
+        }
+
         if (!$this->clientId && !$this->clientId = session(config('google-analytics-4-measurement-protocol.client_id_session_key'))) {
             throw new Exception('Please use the package provided blade directive or set client_id manually before posting an event.');
         }
@@ -68,6 +82,17 @@ class GA4MeasurementProtocol
             $eventData['params']['session_id'] = $this->sessionId;
         }
 
+        if(!$this->sessionNumber && !$this->sessionNumber = session(config('google-analytics-4-measurement-protocol.session_number_session_key'))){
+
+            throw new Exception('Please use the package provided blade directive or set session_id manually before posting an event.');
+        }
+        else {
+            $eventData['params']['session_number'] = $this->sessionNumber;
+        }
+
+
+        //add "engagement_time_msec": "100", to the event data
+        $eventData['params']['engagement_time_msec'] = 100;
 
         $response = Http::withOptions([
             'query' => [
@@ -86,6 +111,7 @@ class GA4MeasurementProtocol
         if($unset_session_at_the_end) {
             session()->forget(config('google-analytics-4-measurement-protocol.client_id_session_key'));
             session()->forget(config('google-analytics-4-measurement-protocol.session_id_session_key'));
+            session()->forget(config('google-analytics-4-measurement-protocol.session_number_session_key'));
         }
 
         return [
