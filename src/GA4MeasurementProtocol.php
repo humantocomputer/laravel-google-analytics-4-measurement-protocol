@@ -55,7 +55,7 @@ class GA4MeasurementProtocol
 
         $eventData['params']['session_id'] = $this->sessionId;
 
-
+dd($eventData);
         $response = Http::withOptions([
             'query' => [
                 'measurement_id' => config('google-analytics-4-measurement-protocol.measurement_id'),
