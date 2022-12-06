@@ -54,7 +54,7 @@
     @if (!session(config('google-analytics-4-measurement-protocol.session_id_session_key'), false))
     collectSessionId();
     @endif
-    @if (!session(config('google-analytics-4-measurement-protocol.session_id_session_key'), false))
+    @if (!session(config('google-analytics-4-measurement-protocol.session_number_session_key'), false))
     collectSessionNumber();
     @endif
 
