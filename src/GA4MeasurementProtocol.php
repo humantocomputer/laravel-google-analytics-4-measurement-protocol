@@ -28,6 +28,13 @@ class GA4MeasurementProtocol
         return $this;
     }
 
+    public function setSessionId(string $sessionId): self
+    {
+        $this->sessionId = $sessionId;
+
+        return $this;
+    }
+
     public function enableDebugging(): self
     {
         $this->debugging = true;
