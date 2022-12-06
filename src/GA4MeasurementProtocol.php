@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 class GA4MeasurementProtocol
 {
     private string $clientId = '';
+    private string $sessionId = '';
 
     private bool $debugging = false;
 
@@ -39,6 +40,14 @@ class GA4MeasurementProtocol
         if (!$this->clientId && !$this->clientId = session(config('google-analytics-4-measurement-protocol.client_id_session_key'))) {
             throw new Exception('Please use the package provided blade directive or set client_id manually before posting an event.');
         }
+
+        if(!$this->sessionId && !$this->sessionId = session(config('google-analytics-4-measurement-protocol.session_id_session_key'))){
+
+            throw new Exception('Please use the package provided blade directive or set session_id manually before posting an event.');
+        }
+
+        $eventData['params']['session_id'] = $this->sessionId;
+
 
         $response = Http::withOptions([
             'query' => [
