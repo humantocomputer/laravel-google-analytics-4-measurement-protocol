@@ -1,22 +1,15 @@
 <script>
-    function collectClientId() {
-        // if (typeof ga !== 'undefined') {
-        //     ga(function(tracker) {
-        //         var clientId = tracker.get('clientId');
-        //         postClientId(clientId);
-        //     });
-        // } else {
-        gtag('get', "{{ config('google-analytics-4-measurement-protocol.measurement_id') }}", 'client_id', function (clientId) {
 
+    function collectClientId() {
+        gtag('get', "{{ config('google-analytics-4-measurement-protocol.measurement_id') }}", 'client_id', function (clientId) {
             postClientId(clientId);
         });
-        // get ga_session_id
-        gtag('get', "{{ config('google-analytics-4-measurement-protocol.measurement_id') }}", 'session_id', function (sessionId) {
+    }
 
+    function collectSessionId() {
+        gtag('get', "{{ config('google-analytics-4-measurement-protocol.measurement_id') }}", 'session_id', function (sessionId) {
             postSessionId(sessionId);
         });
-
-        // }
     }
 
 
@@ -40,10 +33,12 @@
         xhr.send(data);
     }
 
-    {{--    @if (!session(config('google-analytics-4-measurement-protocol.client_id_session_key'), false))--}}
-    {{--    collectClientId();--}}
-    {{--    @endif--}}
+    @if (!session(config('google-analytics-4-measurement-protocol.client_id_session_key'), false))
     collectClientId();
-    {{--    @dd(session()->all())--}}
-    {{--    @dd( session('google-analytics-4-measurement-protocol.session_id'))--}}
+    @endif
+    @if (!session(config('google-analytics-4-measurement-protocol.session_id_session_key'), false))
+    collectSessionId();
+    @endif
+
+
 </script>
