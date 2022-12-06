@@ -40,7 +40,7 @@
 
     function postSessionNumber(sessionNumber) {
         var data = new FormData();
-        data.append('session_id', sessionNumber);
+        data.append('session_number', sessionNumber);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'store-google-analytics-session-number', false);
